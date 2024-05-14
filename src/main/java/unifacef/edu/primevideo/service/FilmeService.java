@@ -14,7 +14,8 @@ public class FilmeService {
 
     public FilmeDTO insert(FilmeDTO filmedto){
         //convertemos DTO em Entity para enviar ao BD
-        FilmeEntity resposta =  injecao.save(converteDTO(filmedto));
+        FilmeEntity entidade= converteDTO(filmedto);
+        FilmeEntity resposta =  injecao.save(entidade);
        return convertEntity(resposta);
     }
 
