@@ -58,6 +58,37 @@ public class FilmeService {
        else{ return "Filme não encontrado"; }
     }
 
+    public List<FilmeDTO> atualizaNota10(){ //exemplo de PUT Maping (update)
+        List<FilmeEntity> filmes = injecao.findAll(); //pega todos os filmes e coloca numa lista
+        for(FilmeEntity filme: filmes) { //para cada filme percorrendo na lista filmes
+            filme.setNota(10);
+            injecao.save(filme); //setou como 10 em cima e usou o save para atualizar no DB
+        }
+        return converteEntities(filmes); //retornando o DTO para o front
+    }
+    public FilmeDTO atualizaId (Long id, FilmeDTO filmedto){ // exemplo de PatchMapping (update com Where)
+        if(injecao.existsById(id)){ //verifica se o filme existe
+            filmedto.setId(id); // defino o id do objeto para aterar
+            // 1° converte filmeDTO em filmeEntity
+            // 2° converte filmeEntity no BD
+            // 3° converte filmeEntity em filmeDTO e retorno
+            return convertEntity(injecao.save(converteDTO(filmedto)));
+        }else{
+            return null; //filme não existe
+        }
+    }
+
+    public List<FilmeDTO> converteEntities(List<FilmeEntity> filmesEntities){
+        //cria uma lista de FilmeDTO
+        List<FilmeDTO> filmeDTOs = new ArrayList<FilmeDTO>();
+
+        //percore filmeEntities
+        for(FilmeEntity filmeEntity: filmesEntities){
+            filmeDTOs.add(convertEntity(filmeEntity));
+        }
+        return filmeDTOs;
+    }
+
     //converte FilmeDTO em FilmeEntity
     public FilmeEntity converteDTO(FilmeDTO filmedto){
         return new FilmeEntity(filmedto.getId(), filmedto.getNome(), filmedto.getAnoLancamento(), filmedto.getNota());
