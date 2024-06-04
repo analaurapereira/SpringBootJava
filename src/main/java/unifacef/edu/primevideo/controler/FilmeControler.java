@@ -16,7 +16,7 @@ public class FilmeControler {
 
     @PostMapping
     public FilmeDTO insert(@RequestBody FilmeDTO filmedto){
-        return injecao.insert(filmedto);
+        return injecao.insere(filmedto);
     }
 
     @GetMapping
